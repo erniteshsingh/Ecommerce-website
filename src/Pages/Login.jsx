@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Features/AuthSlice";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,11 +8,9 @@ import "react-toastify/dist/ReactToastify.css";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const newuser = useSelector((state) => state.auth.signupuser);
 
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
   });
@@ -22,46 +20,30 @@ const Login = () => {
   };
 
   const handleLogin = () => {
-    console.log("All Registered Users:", newuser);
-
     const existingUser = newuser.find(
       (user) =>
         user.email === formData.email && user.password === formData.password
     );
 
     if (existingUser) {
+      const loggedInUser = { ...existingUser, isLogedin: true };
+      dispatch(login(loggedInUser));
       toast.success("Login Successful!");
-      dispatch(login(formData));
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
+      setTimeout(() => navigate("/"), 1000);
     } else {
       toast.error("Invalid Email or Password!");
     }
   };
+
   return (
-    // ✅ Popup-style background
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm">
       <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
         <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
           Login to Your Account
         </h2>
-
         <form className="space-y-5">
           <div>
             <label className="block text-gray-700 font-semibold mb-2">
-              Name
-            </label>
-            <input
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              type="text"
-              placeholder="Enter your name"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-
-            <label className="block text-gray-700 font-semibold mb-2 mt-4">
               Email
             </label>
             <input
@@ -86,16 +68,6 @@ const Login = () => {
               placeholder="Enter your password"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
-          </div>
-
-          <div className="flex justify-between items-center">
-            <label className="flex items-center text-gray-600 text-sm">
-              <input type="checkbox" className="mr-2" />
-              Remember me
-            </label>
-            <a href="#" className="text-blue-500 hover:underline text-sm">
-              Forgot password?
-            </a>
           </div>
 
           <button

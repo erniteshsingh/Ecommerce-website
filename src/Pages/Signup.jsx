@@ -73,19 +73,6 @@ const Signup = () => {
             />
           </div>
 
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">
-              Confirm Password
-            </label>
-            <input
-              onChange={handleChange}
-              name="confirmpassword"
-              type="password"
-              placeholder="Confirm your password"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
-
           <button
             onClick={handleSignup}
             type="button"
