@@ -1,6 +1,14 @@
 import React from "react";
+import { useForm } from "react-hook-form";
 
 const CreateProducts = () => {
+  const { register, handleSubmit, reset } = useForm();
+
+  const submitHandler = (data) => {
+    console.log("Form Data:", data);
+    reset(); // clear form after submit
+  };
+
   return (
     <div className="p-6">
       <div className="bg-white rounded-2xl shadow-lg w-full max-w-md p-6 mx-auto">
@@ -8,13 +16,14 @@ const CreateProducts = () => {
           Create Product
         </h2>
 
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
           {/* Product Name */}
           <div>
             <label className="block text-gray-700 font-medium mb-1">
               Product Name
             </label>
             <input
+              {...register("name")}
               type="text"
               placeholder="Enter product name"
               className="w-full border border-gray-300 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -27,6 +36,7 @@ const CreateProducts = () => {
               Description
             </label>
             <textarea
+              {...register("desc")}
               placeholder="Enter product description"
               rows="3"
               className="w-full border border-gray-300 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -39,34 +49,23 @@ const CreateProducts = () => {
               Price (₹)
             </label>
             <input
+              {...register("price")}
               type="number"
               placeholder="Enter price"
               className="w-full border border-gray-300 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-          {/* Category */}
-          <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              Category
-            </label>
-            <select className="w-full border border-gray-300 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option>Select category</option>
-              <option>Electronics</option>
-              <option>Clothing</option>
-              <option>Books</option>
-              <option>Furniture</option>
-            </select>
-          </div>
-
           {/* Image Upload */}
           <div>
             <label className="block text-gray-700 font-medium mb-1">
-              Product Image
+              Product Image URL
             </label>
             <input
-              type="file"
-              className="w-full border border-gray-300 rounded-lg p-2.5 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-500 file:text-white hover:file:bg-blue-600"
+              {...register("image")}
+              type="text"
+              placeholder="Enter image URL (e.g. https://...)"
+              className="w-full border border-gray-300 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
